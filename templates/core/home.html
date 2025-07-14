@@ -1,0 +1,127 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Welcome to HireSense{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="text-center mb-5">
+  <h1 class="display-4 fw-bold">Welcome to <span class="text-primary">HireSense</span></h1>
+  <p class="lead mt-3">Smarter Hiring. Faster Matches. Powered by AI.</p>
+</div>
+
+<!-- Feature Cards -->
+<div class="row text-center g-4 mb-5">
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <i class="bi bi-person-badge fs-1 text-primary mb-3"></i>
+        <h5>Job Seekers</h5>
+        <p>Upload your resume and get matched with jobs using real AI intelligence.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <i class="bi bi-briefcase fs-1 text-success mb-3"></i>
+        <h5>Recruiters</h5>
+        <p>Get the best candidates ranked by AI, instantly. Smart, fast, and effective.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <i class="bi bi-cpu fs-1 text-warning mb-3"></i>
+        <h5>AI-Powered Matching</h5>
+        <p>Built on BERT & NLP models to semantically match resumes with job descriptions.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- About Us -->
+<div class="my-5 text-center">
+  <h2>About Us</h2>
+  <p class="lead">HireSense is a Final Year Project built to modernize recruitment through automation and AI. Designed by passionate students at LGU, our goal is to reduce hiring delays, match talent with precision, and improve job hunting for everyone.</p>
+</div>
+
+<!-- Meet the Team -->
+<div class="my-5">
+  <h2 class="text-center mb-4">Meet the Team</h2>
+  <div class="row justify-content-center g-4 text-center">
+    <div class="col-md-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Muhammad Zaid Ali</h5>
+          <p class="card-text">Frontend & Integration</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Muhammad Farrukh Ejaz</h5>
+          <p class="card-text">Backend & AI Integration</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Hamza Abbas Bajwa</h5>
+          <p class="card-text">Resume Parsing & Data Models</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQs / Testimonials -->
+<div class="my-5">
+  <h2 class="text-center mb-4">Why Choose HireSense?</h2>
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card border-start border-success border-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title"><i class="bi bi-lightning-charge text-success"></i> Lightning-Fast Matching</h5>
+          <p class="card-text">Our system ranks candidates in seconds using vector-based AI logic.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card border-start border-primary border-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title"><i class="bi bi-check-circle text-primary"></i> Resume Score Feedback</h5>
+          <p class="card-text">Job seekers get suggestions to improve their resume before applying.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact -->
+<div class="my-5 text-center">
+  <h2>Contact Us</h2>
+  <p>Email: <a href="mailto:hiresense.support@example.com">hiresense.support@example.com</a></p>
+  <p>Made with ❤️ by Team HireSense</p>
+</div>
+
+<!-- Call To Action -->
+<div class="text-center mt-5">
+  {% if user.is_authenticated %}
+    <a href="{% url 'dashboard' %}" class="btn btn-outline-primary btn-lg">
+      <i class="bi bi-speedometer2"></i> Go to Dashboard
+    </a>
+  {% else %}
+    <a href="{% url 'register' %}" class="btn btn-primary btn-lg me-2">
+      <i class="bi bi-person-plus"></i> Get Started
+    </a>
+    <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg">
+      <i class="bi bi-box-arrow-in-right"></i> Login
+    </a>
+  {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+  Dashboard | HireSense
+{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Welcome, {{ user.first_name|default:user.username }}!</h2>
+
+  <div class="card mb-4 shadow-sm p-4">
+    <h5 class="mb-3"><i class="bi bi-person-circle me-2"></i>Account Overview</h5>
+
+    <ul class="list-group list-group-flush">
+      {% if profile.role == 'recruiter' %}
+        <li class="list-group-item">
+          <strong>Company:</strong> {{ profile.company }}
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <!-- Role-Specific Quick Actions -->
+  <div class="row g-4">
+    {% if profile.role == 'recruiter' %}
+      <div class="col-md-6">
+        <div class="card h-100 text-center shadow-sm border-0">
+          <div class="card-body">
+            <i class="bi bi-briefcase fs-2 text-primary mb-3"></i>
+            <h5 class="card-title">Post a New Job</h5>
+            <p class="card-text">Easily create a new job listing and start receiving applications.</p>
+            <a href="#" class="btn btn-outline-primary disabled">Coming Soon</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100 text-center shadow-sm border-0">
+          <div class="card-body">
+            <i class="bi bi-people fs-2 text-success mb-3"></i>
+            <h5 class="card-title">View Applicants</h5>
+            <p class="card-text">Check candidates who applied to your posted jobs.</p>
+            <a href="#" class="btn btn-outline-success disabled">Coming Soon</a>
+          </div>
+        </div>
+      </div>
+    {% elif profile.role == 'job_seeker' %}
+      <div class="col-md-6">
+        <div class="card h-100 text-center shadow-sm border-0">
+          <div class="card-body">
+            <i class="bi bi-cloud-upload fs-2 text-info mb-3"></i>
+            <h5 class="card-title">Upload Resume</h5>
+            <p class="card-text">Improve your profile by uploading or updating your resume.</p>
+            <a href="{% url 'upload_resume' %}" class="btn btn-outline-info"><i class="bi bi-upload"></i> Upload Resume</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card h-100 text-center shadow-sm border-0">
+          <div class="card-body">
+            <i class="bi bi-lightbulb fs-2 text-warning mb-3"></i>
+            <h5 class="card-title">Job Recommendations</h5>
+            <p class="card-text">See jobs that best match your skills and resume.</p>
+            <a href="#" class="btn btn-outline-warning disabled">Coming Soon</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resume List -->
+      <p class="mt-4"><strong>Uploaded Resumes:</strong></p>
+      <ul>
+        {% for resume in user.resume_set.all %}
+          <li>
+            <a href="{{ resume.file.url }}" target="_blank">{{ resume.file.name|cut:'resumes/' }}</a>
+          </li>
+        {% empty %}
+          <li>No resume uploaded yet.</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+
+{% endblock %}

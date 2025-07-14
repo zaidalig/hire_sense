@@ -1,0 +1,99 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg
+*.egg-info/
+*.eggs/
+*.manifest
+*.spec
+*.log
+
+# Virtualenv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Django
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+.env
+*.pot
+*.pyc
+
+# VSCode
+.vscode/
+.history/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# JetBrains IDEs
+.idea/
+
+# Node / Frontend (optional if you use npm or yarn for frontend assets)
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+pnpm-lock.yaml
+
+# Coverage and testing
+htmlcov/
+.coverage
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.cache
+.pytest_cache/
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+
+# Build artifacts
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+
+# Others
+*.bak
+*.swp
+*.swo
+*.tmp
+*.orig
+
+# Logs
+logs/
+*.log
+
+# Static root (if collected)
+static_root/
+static/
