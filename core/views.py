@@ -62,25 +62,24 @@ def home_view(request):
 
 
 
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import Resume
-from django.http import HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from core.models import Resume, Job
+from utils.pdf_parser import extract_pdf_content
+from utils.resume_improvements import suggest_improvements
+from utils.job_matching import match_resume_to_job
 
 @login_required
 def upload_resume_view(request):
-    if request.user.userprofile.role != 'job_seeker':
-        return HttpResponseForbidden("Only job seekers can upload resumes.")
-
+    """Handle resume upload, parsing, suggestions, and job recommendations."""
     current_resume = Resume.objects.filter(user=request.user).first()
 
     if request.method == 'POST':
-        # Check the action in the form
+        # Handle the action (upload or delete)
         action = request.POST.get('action')
 
         if action == 'delete':
-            # Delete resume if confirmed by the user
             if current_resume:
                 current_resume.delete()
                 messages.success(request, "Resume deleted successfully.")
@@ -99,10 +98,40 @@ def upload_resume_view(request):
                 if current_resume:
                     current_resume.delete()
 
-                # Create the new resume entry
-                Resume.objects.create(user=request.user, file=file)
-                messages.success(request, "Resume uploaded successfully.")
-                return redirect('dashboard')  # Redirect to the dashboard after upload
+                # Save the new resume entry
+                new_resume = Resume.objects.create(user=request.user, file=file)
+
+                # Extract text from the newly uploaded resume
+                resume_text = extract_pdf_content(new_resume.file.path)
+
+                # Generate improvement suggestions based on parsed resume
+                suggestions = suggest_improvements(resume_text)
+
+                # Fetch job descriptions from the database
+                job_descriptions = Job.objects.values_list('description', flat=True)
+
+                # If no job descriptions are found, display a message
+                if not job_descriptions:
+                    messages.error(request, "No job descriptions available for recommendations.")
+
+                # Ensure there are job descriptions before proceeding
+                if job_descriptions:
+                    # Get job recommendations based on the resume content
+                    similarity_scores = match_resume_to_job(resume_text, job_descriptions)
+
+                    # Sort jobs by similarity score
+                    recommended_jobs = sorted(zip(Job.objects.all(), similarity_scores), key=lambda x: x[1], reverse=True)
+
+                    return render(request, 'core/upload_resume.html', {
+                        'resume': new_resume,
+                        'suggestions': suggestions,
+                        'recommended_jobs': recommended_jobs[:5],  # Top 5 recommendations
+                    })
+                else:
+                    return render(request, 'core/upload_resume.html', {
+                        'resume': new_resume,
+                        'suggestions': suggestions,
+                    })
 
     return render(request, 'core/upload_resume.html', {'resume': current_resume})
 
