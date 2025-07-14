@@ -12,6 +12,7 @@ class UserProfile(models.Model):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     phone = models.CharField(max_length=20, blank=True)
     company = models.CharField(max_length=200, blank=True)  # For recruiters
+    address = models.TextField(blank=True, null=True)  # Add this line for address field
 
     def __str__(self):
         return f"{self.user.username} ({self.role})"

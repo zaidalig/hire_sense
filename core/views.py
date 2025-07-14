@@ -105,3 +105,25 @@ def upload_resume_view(request):
                 return redirect('dashboard')  # Redirect to the dashboard after upload
 
     return render(request, 'core/upload_resume.html', {'resume': current_resume})
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import UserProfile
+from .forms import UserProfileForm  # You need to create this form
+
+@login_required
+def update_profile(request):
+    profile = UserProfile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+            return redirect('profile')  # Redirect to profile view after update
+    else:
+        form = UserProfileForm(instance=profile)
+
+    return render(request, 'core/update_profile.html', {'form': form})
